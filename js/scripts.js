@@ -42,15 +42,15 @@ pokemonList = [
         weight: 105.08,
     }
 ]
-// for loop that displays attributes for every pokemon in pokemonList[n]
-for (let i = 0; i < pokemonList.length; i++) {
-    document.write('<br>' + pokemonList[i].name + " " + '(height: ' + pokemonList[i].height + ')');
-    //All pokemon greater than 5 feet
-    if (pokemonList[i].height >= 5.0) {
+
+//Displays all all pokemon with it's attributs in pokemonList[n]
+pokemonList.forEach(function(pokemon) {
+    document.write('<br>' + pokemon.name + ": " + '(height: ' + pokemon.height + ')');
+    if (pokemon.height >= 5.0) {
         document.write(' - Wow, that\'s really big');
     }
     // All pokemon smaller than 1.1 feet
-    else if (pokemonList[i].height < 1.1){
+    else if (pokemon.height < 1.1){
         document.write(' - Cute, that\'s a really small');
     }
-}
+});
