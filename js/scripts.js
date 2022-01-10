@@ -57,9 +57,28 @@ let pokemonRepository = (function () {
         }
     }
 
+    function addListItem(pokemon) {
+        let pokemonList = document.querySelector('.pokemon-list');
+        let listItem = document.createElement('li');
+        let button = document.createElement('button');
+        button.innerText = pokemon.name;
+        button.classList.add("button-class");
+        listItem.appendChild(button);
+        pokemonList.appendChild(listItem);
+        button.addEventListener('click', function() {
+            showDetails(pokemon);
+        });
+    }
+
+    function showDetails(pokemon) {
+        console.log(pokemon);
+    }
+
     return {
         getAll: getAll,
-        add: add
+        add: add,
+        addListItem: addListItem,
+        showDetails: showDetails
     };
 
 })();
@@ -75,13 +94,6 @@ pokemonRepository.add({
 //pokemonRepository.add('fooltest');
 
 //Displays all all pokemon with it's attributs in pokemonList[n]
-pokemonRepository.getAll().forEach(function(pokemon) {
-    document.write('<br>' + pokemon.name + ": " + '(height: ' + pokemon.height + ')');
-    if (pokemon.height >= 5.0) {
-        document.write(' - Wow, that\'s really big');
-    }
-    // All pokemon smaller than 1.1 feet
-    else if (pokemon.height < 1.1){
-        document.write(' - Cute, that\'s a really small');
-    }
+pokemonRepository.getAll().forEach(function (pokemon) {
+    pokemonRepository.addListItem(pokemon);
 });
