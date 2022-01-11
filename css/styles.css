@@ -1,6 +1,7 @@
 body {
     margin: 10px;
     background-color: rgba(0, 129, 138, 0.459);
+    width: 100%;
 }
 
 h1 {
@@ -22,8 +23,11 @@ h1 {
     color: white;
     border: 2px solid #000000;
     border-radius: 6px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
   }
 
   .pokemon-list {
+      display: flexbox;
       list-style-type: none;    
   }
