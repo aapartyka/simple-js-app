@@ -4,44 +4,45 @@ let pokemonRepository = (function () {
     Array which stores the pokemon objects and it's attributes.
     Attributes: Number in Pokedex, name, type, category, height, weight, gender, abilities & more.
     */
-    pokemonList = [
+    pokemonList = [];
+
+    //url to the pokemon api
+    let apiURL ='https://pokeapi.co/api/v2/pokemon/?limit=150';
+
+    //try GET the data via fetch
+    function loadList() {
+        return fetch(apiURL).then(function (response)
         {
-            pokedexNumber: 4,
-            name: 'Charmander',
-            type: ['Fire'],
-            height: 2.0,
-            weight: 18.7,
-        },
-        {
-            pokedexNumber: 5,
-            name: 'Charmeleon',
-            type: ['Fire'],
-            height: 3.07,
-            weight: 41.9,
-        },
-        {
-            pokedexNumber: 6,
-            name: 'Charizard',
-            type: ['Fire', 'Flying'],
-            height: 5.07,
-            weight: 199.5,
-        },
-        {
-            pokedexNumber: 65,
-            name: 'Alakazam',
-            type: ['Psychic'],
-            height: 4.11,
-            weight: 105.08,
-        },
-        {
-            pokedexNumber: 10,
-            name: 'Caterpie',
-            type: ['Bug'],
-            height: 1.00,
-            weight: 105.08,
-        }
-    ];
-    
+            return response.json();
+        }).then(function (json) {
+            json.results.forEach(function (item) {
+                let pokemon = {
+                    name: item.name,
+                    deatilsUrl: item.url
+                };
+                add(pokemon);
+            });
+        }).catch(function (e) {
+            console.error(e);
+        })
+    }
+
+    function loadDetails(item) {
+        //load detailed information of the pokemon
+        let url = item.deatilsUrl;
+        return fetch(url).then(function (response) {
+            return response.json();
+        }).then(function (details) {
+            //Now we add the details to the item
+            item.imageUrl = details.sprites.front_default;
+            item.height = details.height;
+            item.types = details.types;
+        }).catch(function (e) {
+            console.error(e);
+        });
+    }
+
+
     //returns all pokemon (items of pokemonList).
     function getAll() {
         return pokemonList;
@@ -49,7 +50,7 @@ let pokemonRepository = (function () {
 
     //add new pokemon to pokemonList.
     function add(pokemon) {
-        if (typeof pokemon === 'object') {
+        if (typeof pokemon === 'object' && 'name' in pokemon) {
             pokemonList.push(pokemon);
         }
         else {
@@ -57,6 +58,7 @@ let pokemonRepository = (function () {
         }
     }
 
+    //adds pokemon to the unorderd pokemon-list.
     function addListItem(pokemon) {
         let pokemonList = document.querySelector('.pokemon-list');
         let listItem = document.createElement('li');
@@ -70,30 +72,27 @@ let pokemonRepository = (function () {
         });
     }
 
+    //shows detailed information for the passed pokemon
     function showDetails(pokemon) {
-        console.log(pokemon);
+        loadDetails(pokemon).then(function (){
+            console.log(pokemon);
+        });
     }
 
     return {
         getAll: getAll,
         add: add,
         addListItem: addListItem,
-        showDetails: showDetails
+        showDetails: showDetails,
+        loadList: loadList,
+        loadDetails: loadDetails
     };
 
 })();
 
-pokemonRepository.add({
-    pokedexNumber: 150,
-    name: 'Mewtwo',
-    type: ['Psychic'],
-    height: 2.0,
-    weight: 122.0
-});
-
-//pokemonRepository.add('fooltest');
-
-//Displays all all pokemon with it's attributs in pokemonList[n]
-pokemonRepository.getAll().forEach(function (pokemon) {
-    pokemonRepository.addListItem(pokemon);
+pokemonRepository.loadList().then(function() {
+    //Now the data is loaded!
+    pokemonRepository.getAll().forEach(function (pokemon) {
+        pokemonRepository.addListItem(pokemon);
+    });
 });
