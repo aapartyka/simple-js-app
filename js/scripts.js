@@ -12,14 +12,13 @@ let pokemonRepository = (function () {
 
     //try GET the data via fetch
     function loadList() {
-        return fetch(apiURL).then(function (response)
-        {
+        return fetch(apiURL).then(function (response) {
             return response.json();
         }).then(function (json) {
             json.results.forEach(function (item) {
                 let pokemon = {
                     name: item.name,
-                    deatilsUrl: item.url
+                    detailsURL: item.url
                 };
                 add(pokemon);
             });
@@ -28,18 +27,18 @@ let pokemonRepository = (function () {
         });
     }
 
-    function loadDetails(item) {
+    function loadDetails(pokemon) {
         //load detailed information of the pokemon
-        let url = item.deatilsUrl;
+        let url = pokemon.detailsURL;
         return fetch(url).then(function (response) {
             return response.json();
         }).then(function (details) {
             //add the details to the item
-            item.imageUrl = details.sprites.front_default;
-            item.types = details.types;
-            item.height = details.height;
-            item.weight = details.weight;
-            item.abilities = details.abilities;
+            pokemon.imageUrl = details.sprites.front_default;
+            //pokemon.types = details.types;
+            pokemon.height = details.height;
+            pokemon.weight = details.weight;
+            //pokemon.abilities = details.abilities;
         }).catch(function (e) {
             console.error(e);
         });
@@ -65,10 +64,12 @@ let pokemonRepository = (function () {
         let pokemonList = document.querySelector('.pokemon-list');
         let listItem = document.createElement('li');
         let button = document.createElement('button');
+        
         button.innerText = pokemon.name;
         button.classList.add("button-class");
         listItem.appendChild(button);
         pokemonList.appendChild(listItem);
+
         button.addEventListener('click', function() {
             showDetails(pokemon);
         });
@@ -95,8 +96,9 @@ let pokemonRepository = (function () {
         let pknName = document.createElement('h1');
         pknName.innerText = pokemon.name;
 
-        let pknType = document.createElement('p');
-        pknType.innerText = 'Type(s): ' + pokemon.types;
+        //let pknType = document.createElement('p');
+        //let test = JSON.stringify(pokemon.types);
+        //pknType.innerText = 'Type(s): ' + pokemon.types;
 
         let pknHeight = document.createElement('p');
         pknHeight.innerText = 'Height: ' + pokemon.height;
@@ -104,8 +106,8 @@ let pokemonRepository = (function () {
         let pknWeight = document.createElement('p');
         pknWeight.innerText = 'Weight: ' + pokemon.weight;
 
-        let pknAbility = document.createElement('p');
-        pknAbility.innerText = 'Abilities: ' + pokemon.abilities;
+        //let pknAbility = document.createElement('p');
+        //pknAbility.innerText = 'Abilities: ' + pokemon.abilities;
 
         let pknImage = document.createElement('img');
         pknImage.src = pokemon.imageUrl;
@@ -113,10 +115,10 @@ let pokemonRepository = (function () {
         modal.appendChild(btnClose);
         modal.appendChild(pknName);
         modal.appendChild(pknImage);
-        modal.appendChild(pknType);
+        //modal.appendChild(pknType);
         modal.appendChild(pknHeight);
         modal.appendChild(pknWeight);
-        modal.appendChild(pknAbility);
+        //modal.appendChild(pknAbility);
 
     modalContainer.appendChild(modal);
 
@@ -127,6 +129,13 @@ let pokemonRepository = (function () {
   function hideModal() {
       modalContainer.classList.remove('is-visible');
   }
+
+  window.addEventListener('keydown', (e) => {
+    let modalContainer = document.querySelector('#modal-container');
+    if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
+        hideModal();
+    }
+});
 
   modalContainer.addEventListener('click', (e) => {
     let target = e.target;
