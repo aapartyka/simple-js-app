@@ -8,6 +8,12 @@ h1 {
     font-size: 30px;
 }
 
+/*Close button of moda*/
+.modal-close {
+    cursor: pointer;
+}
+
+/*Class for pokemon buttons */
 .button-class {
     background-color: #274dcc;
     border: none;
