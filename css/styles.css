@@ -1,11 +1,38 @@
 body {
-    margin: 10px;
     background-color: rgba(0, 129, 138, 0.459);
     width: 100%;
 }
 
-h1 {
-    font-size: 30px;
+#search-pokemon:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s;
+}
+
+.navbar {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.page-container {
+  margin-top: 51px;
+  margin-left: 10px;
+}
+
+.listcontainer {
+  display: table;
+  margin: auto 20px;
+}
+
+.pokemon-list {
+  padding: 0;
+}
+
+.pokemon-image {
+  transition: transform 0.3s;
+}
+
+.pokemon-image:hover {
+  transform: scale(1.2);
 }
 
 /*Close button of modal*/
