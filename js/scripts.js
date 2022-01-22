@@ -100,53 +100,36 @@ let pokemonRepository = (function () {
     }
 
     function showModal(pokemon) {
-        //clear existing code.
+        //create modal object
         let pknModal = new bootstrap.Modal(document.getElementById('modal'), {
             keyboard: true
         });
         
         let modalTitle = document.querySelector('.modal-title');
-        modalTitle.textContent = pokemon.name;
-        
         let modalBody = document.querySelector('.modal-body');
-        modalBody.textContent = 'Height: ' + pokemon.height;
 
+        //delete previous displayed details.
+        modalBody.innerHTML = '';
+
+        modalTitle.textContent = pokemon.name;
+
+        let pknImage = document.createElement('img');
+        pknImage.src = pokemon.imageUrl;
+        pknImage.classList.add('pokemon-image');
+
+        let pknHeight = document.createElement('p');
+        pknHeight.innerText = 'Height: ' + pokemon.height;
+
+        let pknWeight = document.createElement('p');
+        pknWeight.innerText = 'Weight: ' + pokemon.weight;
+        //add abilities, type and gender later.
+
+        modalBody.append(pknImage);
+        modalBody.append(pknHeight);
+        modalBody.append(pknWeight);
+        
         pknModal.show();
 
-
-        //pknModal.modal();
-          //let modal = document.createElement('div');
-          //modal.classList.add('modal');
-
-
-        // let pknName = document.createElement('h1');
-        // pknName.innerText = pokemon.name;
-
-        //let pknType = document.createElement('p');
-        //let test = JSON.stringify(pokemon.types);
-        //pknType.innerText = 'Type(s): ' + pokemon.types;
-
-        // let pknHeight = document.createElement('p');
-        // pknHeight.innerText = 'Height: ' + pokemon.height;
-
-        // let pknWeight = document.createElement('p');
-        // pknWeight.innerText = 'Weight: ' + pokemon.weight;
-
-        //let pknAbility = document.createElement('p');
-        //pknAbility.innerText = 'Abilities: ' + pokemon.abilities;
-
-        // let pknImage = document.createElement('img');
-        // pknImage.src = pokemon.imageUrl;
-
-       //modal.appendChild(btnClose);
-        //modal.appendChild(pknName);
-        // modal.appendChild(pknImage);
-        //modal.appendChild(pknType);
-        // modal.appendChild(pknHeight);
-        // modal.appendChild(pknWeight);
-        //modal.appendChild(pknAbility);
-        // $('#modal-container').modal();
-    //  modalContainer.appendChild(modal);
   }
 
     return {
