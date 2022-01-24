@@ -8,7 +8,6 @@ let pokemonRepository = (function () {
     //url to the pokemon api
     let apiURL ='https://pokeapi.co/api/v2/pokemon/?limit=150';
     //initialize container for modal
-    let modalContainer = document.querySelector('#modal');
 
     //add pokemon to pokemonList.
     function add(pokemon) {
@@ -102,6 +101,7 @@ let pokemonRepository = (function () {
 
     function showModal(pokemon) {
         //create modal object
+        // eslint-disable-next-line no-undef
         let pknModal = new bootstrap.Modal(document.getElementById('modal'), {
             keyboard: true
         });
@@ -146,7 +146,7 @@ let pokemonRepository = (function () {
 })();
 
 pokemonRepository.loadList().then(function() {
-    //Now the data is loaded!
+    //add pokemon search here
     pokemonRepository.getAll().forEach(function (pokemon) {
         pokemonRepository.addListItem(pokemon);
     });
