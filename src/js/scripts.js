@@ -4,6 +4,7 @@ let pokemonRepository = (function () {
     Array which stores the pokemon objects and it's attributes.
     Attributes: Number in Pokedex, name, type, category, height, weight, gender, abilities & more.
     */
+    // eslint-disable-next-line no-undef
     pokemonList = [];
     //url to the pokemon api
     let apiURL ='https://pokeapi.co/api/v2/pokemon/?limit=150';
@@ -22,6 +23,35 @@ let pokemonRepository = (function () {
     //returns all pokemon (items of pokemonList).
     function getAll() {
         return pokemonList;
+    }
+
+    function removeAllChildNotes(parent) {
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
+        }
+    }
+
+    //Get input element.
+    let filterInput = document.getElementById('search-pokemon');
+    //Add event listener.
+    filterInput.addEventListener('keyup', filterPokemon);
+
+    function filterPokemon() {
+        //Get value of input.
+        let filterValue = document.getElementById('search-pokemon').value.toLowerCase();
+
+        //Get PokemonList(Element).
+        let removePokemon = document.querySelector('.pokemon-list');
+        //remove all children of PokemonList.
+        removeAllChildNotes(removePokemon);
+
+        pokemonList.forEach((pokemon) => {
+            //Filter foreach Pokemon
+            if(pokemon.name.toLowerCase().includes(filterValue.toLowerCase())){
+                //Add each pokemon to the pokemon list which name includes the same letters like the filterValue.
+                addListItem(pokemon);
+            }
+        })
     }
 
     //adds pokemon to the unorderd pokemon-list.
